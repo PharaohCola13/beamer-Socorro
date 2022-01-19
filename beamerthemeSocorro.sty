@@ -1,0 +1,81 @@
+\mode<presentation>
+
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{graphicx, float}
+
+\newif\ifbeamer@secheader
+\beamer@secheaderfalse
+\beamer@compresstrue
+
+\DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
+\DeclareOptionBeamer{bckgrd}{\definecolor{bckgrd}{HTML}{#1}}
+\DeclareOptionBeamer{forgrd}{\definecolor{forgrd}{HTML}{#1}}
+\DeclareOptionBeamer{pri}{\definecolor{pri}{HTML}{#1}}
+\DeclareOptionBeamer{alt}{\definecolor{alt}{HTML}{#1}}
+\DeclareOptionBeamer{titlebck}{\newcommand{\titlebck}{#1}}
+\ProcessOptionsBeamer
+
+\setbeamercolor{title}{fg=bckgrd}
+\setbeamercolor{frametitle}{bg=bckgrd, fg=forgrd}
+\setbeamercolor{subframetitle}{bg=forgrd, fg=bckgrd}
+\setbeamercolor{background canvas}{bg=forgrd}
+\setbeamercolor{normal text}{fg=pri}
+\setbeamercolor{itemize item}{fg=bckgrd}
+
+\setbeamercolor{section in head/foot}{bg=bckgrd, fg=forgrd}
+\setbeamercolor{subsection in head/foot}{bg=bckgrd}
+\setbeamercolor{author in head/foot}{bg=bckgrd}
+\setbeamercolor{title in head/foot}{bg=bckgrd}
+
+\setbeamersize{text margin left = 0.2in, text margin right = 0.2in}
+
+\defbeamertemplate*{background canvas}{color}{%
+  \ifbeamercolorempty[bg]{background canvas}{}{\color{bg}\vrule width\paperwidth height\paperheight}
+}
+\setbeamertemplate{navigation symbols}{}
+\defbeamertemplate*{background canvas}{image}{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.center), opacity=0.3]{
+            \includegraphics[width=\paperwidth,
+                             height=\paperheight]{\titlebck}
+        };
+    \end{tikzpicture}
+}
+\BeforeBeginEnvironment{frame}{%
+  \setbeamertemplate{background canvas}[color]%
+}
+\define@key{beamerframe}{image}[true]{%
+  \setbeamercovered{invisible}%
+  \setbeamertemplate{background canvas}[image]%
+}
+
+\setbeamertemplate{frametitle}{
+    \nointerlineskip
+    \hspace*{-0.7cm}
+    \begin{beamercolorbox}[sep=0.3cm,ht=1.8em,wd=0.5\paperwidth]{frametitle}
+        \vbox{}\vskip-2ex%
+        \strut\insertframetitle\strut
+        \vskip-0.8ex%
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=0cm,ht=1.5em,wd=0.45\paperwidth]{subframetitle}
+        \vbox{}\vskip-2ex%
+        \begin{flushright}
+            \strut\insertsubsectionhead\strut
+        \end{flushright}
+        \vskip-0.8ex%
+    \end{beamercolorbox}
+}
+\defbeamertemplate*{footline}{miniframes theme}{%
+  \begin{beamercolorbox}[colsep=1.5pt, ht=0em]{upper separation line head}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[ht=4em]{section in head/foot}
+    \strut\vskip2pt\insertnavigation{\paperwidth}\vskip2pt\strut
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[colsep=1.5pt, ht=0em]{lower separation line head}
+  \end{beamercolorbox}
+}
+
+
+\mode
+<all>

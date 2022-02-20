@@ -2,6 +2,7 @@
 
 \usepackage{xcolor}
 \usepackage{tikz}
+\usepackage{xstring}
 \usepackage{graphicx, float}
 
 \newif\ifbeamer@secheader
@@ -9,73 +10,128 @@
 \beamer@compresstrue
 
 \DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
-\DeclareOptionBeamer{bckgrd}{\definecolor{bckgrd}{HTML}{#1}}
-\DeclareOptionBeamer{forgrd}{\definecolor{forgrd}{HTML}{#1}}
-\DeclareOptionBeamer{pri}{\definecolor{pri}{HTML}{#1}}
-\DeclareOptionBeamer{alt}{\definecolor{alt}{HTML}{#1}}
-\DeclareOptionBeamer{titlebck}{\newcommand{\titlebck}{#1}}
+\DeclareOptionBeamer{tbkgrd}{\newcommand{\tbkgrd}{#1}}
+\DeclareOptionBeamer{tslide}{\newcommand{\tslide}{#1}}
 \ProcessOptionsBeamer
 
-\setbeamercolor{title}{fg=bckgrd}
-\setbeamercolor{frametitle}{bg=bckgrd, fg=forgrd}
-\setbeamercolor{subframetitle}{bg=forgrd, fg=bckgrd}
-\setbeamercolor{background canvas}{bg=forgrd}
-\setbeamercolor{normal text}{fg=pri}
-\setbeamercolor{itemize item}{fg=bckgrd}
+\let\insertconference\relax
+\newcommand\conference[1]{\def\insertconference{#1}}
 
-\setbeamercolor{section in head/foot}{bg=bckgrd, fg=forgrd}
-\setbeamercolor{subsection in head/foot}{bg=bckgrd}
-\setbeamercolor{author in head/foot}{bg=bckgrd}
-\setbeamercolor{title in head/foot}{bg=bckgrd}
+\defbeamertemplate*{title page}{socorro}[1][]{
+    \usebeamercolor[fg]{palette primary}
+   \pagecolor{bg}
+  \begingroup
+    \centering
+    \begin{beamercolorbox}[sep=3pt,center,center]{titlepage}
+      \usebeamerfont{title}\inserttitle\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\textit\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1.5em\par
+    \hrule\vskip1.5em\par%
+    \begin{beamercolorbox}[sep=3pt,center,#1]{author}
+      \usebeamerfont{author}\insertauthor
+    \end{beamercolorbox}\vskip1em%
+    \begin{beamercolorbox}[sep=3pt,center,#1]{institute}
+      \usebeamerfont{institute}\insertinstitute
+    \end{beamercolorbox}\vskip1em%
+    \begin{beamercolorbox}[sep=3pt,center,#1]{conference}
+      \usebeamerfont{conference}\footnotesize\insertconference\\\usebeamerfont{date}\footnotesize\insertdate
+    \end{beamercolorbox}
+
+    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+  \endgroup
+  \vfill
+}
+
+% \setbeamercolor{title}{fg=frgrd}
+% \setbeamercolor{author}{fg=frgrd}
+% \setbeamercolor{institute}{fg=frgrd}
+% \setbeamercolor{date}{fg=frgrd}
+% \setbeamercolor{conference}{fg=frgrd}
+
+% \setbeamercolor{frametitle}{bg=bkgrd, fg=frgrd}
+% \setbeamercolor{subframetitle}{bg=frgrd, fg=bkgrd}
+% \setbeamercolor{background canvas}{bg=frgrd}
+% \setbeamercolor{normal text}{fg=pri}
+% \setbeamercolor{itemize item}{fg=bkgrd}
+
+% \setbeamercolor{section in head/foot}{bg=bkgrd, fg=frgrd}
+% \setbeamercolor{subsection in head/foot}{bg=bkgrd}
+% \setbeamercolor{author in head/foot}{bg=bkgrd}
+% \setbeamercolor{title in head/foot}{bg=bkgrd}
+
+% \newcommand{\titlelogo}[3]{
+% \begin{tikzpicture}[overlay,remember picture]
+%     \node[left=#3] at (current page.30){
+%         \includegraphics[width=#2]{.logo/#1}
+%     };
+% \end{tikzpicture}
+% }
 
 \setbeamersize{text margin left = 0.2in, text margin right = 0.2in}
 
-\defbeamertemplate*{background canvas}{color}{%
-  \ifbeamercolorempty[bg]{background canvas}{}{\color{bg}\vrule width\paperwidth height\paperheight}
-}
-\setbeamertemplate{navigation symbols}{}
-\defbeamertemplate*{background canvas}{image}{%
+\defbeamertemplate*{background canvas}{image,west}{%
     \begin{tikzpicture}[remember picture,overlay]
-        \node[at=(current page.center), opacity=0.3]{
+        \node[at=(current page.west), opacity=1]{
             \includegraphics[width=\paperwidth,
-                             height=\paperheight]{\titlebck}
+                             height=\paperheight]{\tbkgrd}
         };
     \end{tikzpicture}
 }
+
+\defbeamertemplate*{background canvas}{image,east}{%
+    \setbeamertemplate{title page}[socorro][right]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.east), opacity=1]{
+            \includegraphics[width=\paperwidth,
+                             height=\paperheight]{\tbkgrd}
+        };
+    \end{tikzpicture}
+}
+
 \BeforeBeginEnvironment{frame}{%
+  \setbeamercovered{invisible}%
   \setbeamertemplate{background canvas}[color]%
 }
-\define@key{beamerframe}{image}[true]{%
-  \setbeamercovered{invisible}%
-  \setbeamertemplate{background canvas}[image]%
+
+\defbeamertemplate*{background canvas}{color}{%
+  \ifbeamercolorempty[bg]{background canvas}{}{\color{bg}\vrule width\paperwidth height\paperheight}%
 }
 
-\setbeamertemplate{frametitle}{
-    \nointerlineskip
-    \hspace*{-0.7cm}
-    \begin{beamercolorbox}[sep=0.3cm,ht=1.8em,wd=0.5\paperwidth]{frametitle}
-        \vbox{}\vskip-2ex%
-        \strut\insertframetitle\strut
-        \vskip-0.8ex%
-    \end{beamercolorbox}
-    \begin{beamercolorbox}[sep=0cm,ht=1.5em,wd=0.45\paperwidth]{subframetitle}
-        \vbox{}\vskip-2ex%
-        \begin{flushright}
-            \strut\insertsubsectionhead\strut
-        \end{flushright}
-        \vskip-0.8ex%
-    \end{beamercolorbox}
+\newcommand{\titleslide}{
+    \IfEqCase{\tslide}{
+    {east}{
+        \define@key{beamerframe}{image}[true]{%
+            \setbeamertemplate{background canvas}[image,west]%
+        }
+        \setbeamertemplate{title page}[socorro][left]
+        \begin{frame}[plain, image]
+            \begin{columns}
+                \begin{column}{0.5\textwidth}\end{column}
+                \begin{column}{0.5\textwidth}
+                    \titlepage
+                \end{column}
+            \end{columns}
+        \end{frame}
+    }{west}{
+        \define@key{beamerframe}{image}[true]{%
+            \setbeamertemplate{background canvas}[image,east]%
+        }
+        \setbeamertemplate{title page}[socorro][right]
+        \begin{frame}[plain, image]
+            \begin{columns}
+                \begin{column}{0.5\textwidth}
+                    \titlepage
+                \end{column}
+                \begin{column}{0.5\textwidth}\end{column}
+            \end{columns}
+        \end{frame}
+    }}
 }
-\defbeamertemplate*{footline}{miniframes theme}{%
-  \begin{beamercolorbox}[colsep=1.5pt, ht=0em]{upper separation line head}
-  \end{beamercolorbox}
-  \begin{beamercolorbox}[ht=4em]{section in head/foot}
-    \strut\vskip2pt\insertnavigation{\paperwidth}\vskip2pt\strut
-  \end{beamercolorbox}%
-  \begin{beamercolorbox}[colsep=1.5pt, ht=0em]{lower separation line head}
-  \end{beamercolorbox}
-}
-
 
 \mode
 <all>

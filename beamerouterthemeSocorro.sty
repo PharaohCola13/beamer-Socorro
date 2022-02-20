@@ -1,0 +1,58 @@
+\setbeamertemplate{navigation symbols}{}
+
+
+% \defbeamertemplate*{headline}{socorro theme}
+% {%
+%   \hbox{%
+%   \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,right]{section in head/foot}%
+%     \usebeamerfont{section in head/foot}\insertsectionhead\hspace*{2ex}
+%   \end{beamercolorbox}%
+%   \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,left]{subsection in head/foot}%
+%     \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertsubsectionhead
+%   \end{beamercolorbox}}%
+%   \vskip0pt%
+% }
+\usepackage{environ}
+\usepackage{relsize}
+\NewEnviron{fitbox}[2]{%
+    \minipage{#1}%
+        \sbox0{\minipage{#1}\strut\BODY\strut\endminipage}%
+        \Gscale@div\factor{#2}{\dimexpr\ht0+\dp0\relax}%
+        \relscale{\factor}%
+        \BODY
+    \endminipage
+}
+
+\setbeamertemplate{frametitle}{
+    \nointerlineskip
+    \hspace*{-0.7cm}
+    \begin{beamercolorbox}[sep=0.3cm,ht=1.8em,wd=0.5\paperwidth]{frametitle}
+    \begin{fitbox}{0.5\textwidth}{0.5\textheight}
+        \begin{flushright}
+            \vspace*{\fill}
+            \usebeamerfont{section name}\insertsectionhead
+            \vspace*{\fill}
+        \end{flushright}
+    \end{fitbox}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[sep=0.3cm,ht=1.8em,wd=0.45\paperwidth]{subframetitle}
+    \begin{fitbox}{0.5\textwidth}{0.5\textheight}
+        \begin{flushleft}
+            \vspace*{\fill}
+            \usebeamerfont{subsection name}\insertsubsectionhead
+            \vspace*{\fill}
+        \end{flushleft}
+    \end{fitbox}
+    \end{beamercolorbox}
+}
+
+
+\defbeamertemplate*{footline}{miniframes theme}{%
+  \begin{beamercolorbox}[colsep=1.5pt, ht=0em]{upper separation line head}
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[ht=4em]{section in head/foot}
+    \strut\vskip2pt\insertnavigation{\paperwidth}\vskip2pt\strut
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[colsep=1.5pt, ht=0em]{lower separation line head}
+  \end{beamercolorbox}
+}

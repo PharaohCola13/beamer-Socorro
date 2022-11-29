@@ -1,0 +1,45 @@
+% :todo: make the counter ignore the section title slides
+% :todo: get the frametitle 
+
+\documentclass[11pt]{beamer}
+\RequirePackage{import}
+\mode<presentation>{}
+
+\usepackage[tbkgrd=.bg/clouds.jpg, 
+            tslide=east,
+            compress]{beamerthemeSocorro}
+
+\newcommand{\desertblue}{01385F}
+
+\definecolor{main}{HTML}{\desertblue} % desertblue
+
+\usepackage{.socorro/beamercolortheme}
+\usepackage[secsty=none,
+            framesty=socorro,
+            footsty=socorro,
+            headsty=none]{beameroutertheme}
+            
+\usepackage{lipsum}
+
+\title[Short Title]{The Socorro Beamer Theme Test}
+\subtitle{A test subtitle}
+
+\author[Short Author]{Author One\inst{1}, Author Two\inst{2}}
+
+\institute{\inst{1}Place One \and \inst{2}Place Two}
+
+\date{\footnotesize Conference Date}
+\conference{Conference Title}
+
+\begin{document}
+\titleslide
+
+\section{Text slides}
+\subsection{basic}
+\begin{frame}{\secname}
+    \lipsum[1][1-6]   
+    \prezrule{0.75}{0.25cm}
+    \lipsum[1][1] 
+\end{frame}
+
+\end{document}

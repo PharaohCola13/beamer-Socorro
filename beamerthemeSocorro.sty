@@ -4,6 +4,13 @@
 \usepackage{tikz}
 \usepackage{xstring}
 \usepackage{graphicx, float}
+\usepackage{palatino}
+\usepackage{qrcode}
+\usepackage[super]{nth}
+\usepackage{pgfpages}
+\usepackage{setspace}
+\usepackage{varwidth}
+\usepackage{multicol}
 
 \newif\ifbeamer@secheader
 \beamer@secheaderfalse
@@ -12,7 +19,23 @@
 \DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
 \DeclareOptionBeamer{tbkgrd}{\newcommand{\tbkgrd}{#1}}
 \DeclareOptionBeamer{tslide}{\newcommand{\tslide}{#1}}
+\DeclareOptionBeamer{notes}{\setbeameroption{show notes on second screen=right}\setbeamertemplate{note page}{\pagecolor{white}\insertnote}}
 \ProcessOptionsBeamer
+
+\newlength{\spce}
+\setlength{\spce}{0.5cm}
+\newcommand{\vtab}[1]{\vspace*{#1\spce}}
+\newcommand{\htab}[1]{\hspace*{#1\spce}}
+
+\AtBeginNote{
+    \vspace{0.325cm}
+    \usebeamerfont{section in head/foot}
+    \textbf{\insertframetitle}\hfill\insertsubsection
+    \par\smallskip
+    \hrule
+    \footnotesize
+}
+
 
 \let\insertconference\relax
 \newcommand\conference[1]{\def\insertconference{#1}}
@@ -23,54 +46,29 @@
   \begingroup
     \centering
     \begin{beamercolorbox}[sep=3pt,center,center]{titlepage}
-      \usebeamerfont{title}\inserttitle\par%
+      \usebeamerfont{title}\Large\textbf{\inserttitle}\par%
       \ifx\insertsubtitle\@empty%
       \else%
         \vskip0.25em%
-        {\usebeamerfont{subtitle}\textit\insertsubtitle\par}%
+        {\usebeamerfont{subtitle}\small\textit\insertsubtitle\par}%
       \fi%     
     \end{beamercolorbox}%
     \vskip1.5em\par
     \hrule\vskip1.5em\par%
-    \begin{beamercolorbox}[sep=3pt,center,#1]{author}
-      \usebeamerfont{author}\insertauthor
-    \end{beamercolorbox}\vskip1em%
-    \begin{beamercolorbox}[sep=3pt,center,#1]{institute}
-      \usebeamerfont{institute}\insertinstitute
-    \end{beamercolorbox}\vskip1em%
-    \begin{beamercolorbox}[sep=3pt,center,#1]{conference}
-      \usebeamerfont{conference}\footnotesize\insertconference\\\usebeamerfont{date}\footnotesize\insertdate
+    \begin{beamercolorbox}[sep=0pt,right,#1]{author}
+      \usebeamerfont{author}\scriptsize\insertauthor
+    \end{beamercolorbox}\vskip0.5em%
+    \begin{beamercolorbox}[sep=0pt,right,#1]{institute}
+      \usebeamerfont{institute}\scriptsize\insertinstitute
+    \end{beamercolorbox}\vskip1.0cm%
+    \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
+      \usebeamerfont{conference}\scriptsize\insertconference\\\usebeamerfont{date}\scriptsize\insertdate
     \end{beamercolorbox}
 
     {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
   \endgroup
   \vfill
 }
-
-% \setbeamercolor{title}{fg=frgrd}
-% \setbeamercolor{author}{fg=frgrd}
-% \setbeamercolor{institute}{fg=frgrd}
-% \setbeamercolor{date}{fg=frgrd}
-% \setbeamercolor{conference}{fg=frgrd}
-
-% \setbeamercolor{frametitle}{bg=bkgrd, fg=frgrd}
-% \setbeamercolor{subframetitle}{bg=frgrd, fg=bkgrd}
-% \setbeamercolor{background canvas}{bg=frgrd}
-% \setbeamercolor{normal text}{fg=pri}
-% \setbeamercolor{itemize item}{fg=bkgrd}
-
-% \setbeamercolor{section in head/foot}{bg=bkgrd, fg=frgrd}
-% \setbeamercolor{subsection in head/foot}{bg=bkgrd}
-% \setbeamercolor{author in head/foot}{bg=bkgrd}
-% \setbeamercolor{title in head/foot}{bg=bkgrd}
-
-% \newcommand{\titlelogo}[3]{
-% \begin{tikzpicture}[overlay,remember picture]
-%     \node[left=#3] at (current page.30){
-%         \includegraphics[width=#2]{.logo/#1}
-%     };
-% \end{tikzpicture}
-% }
 
 \setbeamersize{text margin left = 0.2in, text margin right = 0.2in}
 
@@ -131,6 +129,19 @@
             \end{columns}
         \end{frame}
     }}
+}
+
+\newcommand{\prezrule}[2]{
+{\usebeamercolor[bg]{palette primary}
+\begin{center}
+\vspace*{#2}
+\textcolor{bg}{\rule{#1\textwidth}{1px}}
+\vspace*{#2}
+\end{center}
+}}
+
+\newcommand{\contactentry}[2]{
+     {\footnotesize #1\\\vtab{-0.25}{\scriptsize\url{#2}}}\\
 }
 
 \mode

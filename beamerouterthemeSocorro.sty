@@ -1,17 +1,12 @@
+\DeclareOptionBeamer{secsty}{\newcommand{\secsty}{#1}}
+\DeclareOptionBeamer{framesty}{\newcommand{\framesty}{#1}}
+\DeclareOptionBeamer{footsty}{\newcommand{\footsty}{#1}}
+\DeclareOptionBeamer{headsty}{\newcommand{\headsty}{#1}}
+
+\ProcessOptionsBeamer
+
 \setbeamertemplate{navigation symbols}{}
 
-
-% \defbeamertemplate*{headline}{socorro theme}
-% {%
-%   \hbox{%
-%   \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,right]{section in head/foot}%
-%     \usebeamerfont{section in head/foot}\insertsectionhead\hspace*{2ex}
-%   \end{beamercolorbox}%
-%   \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,left]{subsection in head/foot}%
-%     \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertsubsectionhead
-%   \end{beamercolorbox}}%
-%   \vskip0pt%
-% }
 \usepackage{environ}
 \usepackage{relsize}
 \NewEnviron{fitbox}[2]{%
@@ -23,36 +18,111 @@
     \endminipage
 }
 
-\setbeamertemplate{frametitle}{
-    \nointerlineskip
+% \defbeamertemplate*{section page}{default}[1][]
+% {
+%   \centering
+%     \begin{beamercolorbox}[sep=8pt,center,#1]{section title}
+%       \usebeamerfont{section title}\insertsection\par
+%     \end{beamercolorbox}
+% }
+% \newcommand*{\sectionpage}{\usebeamertemplate*{section page}}
+
+\defbeamertemplate*{frametitle}{socorro}{
     \hspace*{-0.7cm}
-    \begin{beamercolorbox}[sep=0.3cm,ht=1.8em,wd=0.5\paperwidth]{frametitle}
-    \begin{fitbox}{0.5\textwidth}{0.5\textheight}
+    \begin{beamercolorbox}[sep=0cm,ht=1cm, wd=0.33\paperwidth]{frametitle}
         \begin{flushright}
-            \vspace*{\fill}
-            \usebeamerfont{section name}\insertsectionhead
-            \vspace*{\fill}
+            \begin{tabular}{r}
+               \vspace*{-0.2cm}
+                \usebeamerfont{section name}\textbf{\insertsectionhead}
+            \end{tabular}
         \end{flushright}
-    \end{fitbox}
     \end{beamercolorbox}
-    \begin{beamercolorbox}[sep=0.3cm,ht=1.8em,wd=0.45\paperwidth]{subframetitle}
-    \begin{fitbox}{0.5\textwidth}{0.5\textheight}
+    \begin{beamercolorbox}[sep=0cm,ht=1cm,wd=0.45\paperwidth]{subframetitle}
         \begin{flushleft}
-            \vspace*{\fill}
-            \usebeamerfont{subsection name}\insertsubsectionhead
-            \vspace*{\fill}
+            \begin{tabular}{l}
+                \vspace*{-0.2cm}
+                \usebeamerfont{section name}\textbf{\insertsubsectionhead}
+            \end{tabular}
         \end{flushleft}
-    \end{fitbox}
     \end{beamercolorbox}
 }
 
+\defbeamertemplate*{frametitle}{empty}{}
 
-\defbeamertemplate*{footline}{miniframes theme}{%
-  \begin{beamercolorbox}[colsep=1.5pt, ht=0em]{upper separation line head}
-  \end{beamercolorbox}
-  \begin{beamercolorbox}[ht=4em]{section in head/foot}
-    \strut\vskip2pt\insertnavigation{\paperwidth}\vskip2pt\strut
+\defbeamertemplate*{headline}{socorro}
+{%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,right]{frametitle}%
+    \usebeamerfont{section in head/foot}\insertsectionhead\hspace*{2ex}
   \end{beamercolorbox}%
-  \begin{beamercolorbox}[colsep=1.5pt, ht=0em]{lower separation line head}
-  \end{beamercolorbox}
+  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,left]{subframetitle}%
+    \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertsubsectionhead
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+\defbeamertemplate*{headline}{empty}{}
+
+
+\defbeamertemplate*{footline}{socorro}{%
+    % \begin{beamercolorbox}[colsep=1.5pt, ht=0cm]{upper separation line head}
+    % \end{beamercolorbox}
+    \begin{beamercolorbox}[ht=0.75cm]{section in head/foot}
+        \strut\vskip2pt\insertnavigation{\paperwidth}\strut
+    \end{beamercolorbox}%
+    % \begin{beamercolorbox}[colsep=1.5pt, ht=0cm]{lower separation line head}
+    % \end{beamercolorbox}
+}
+
+\defbeamertemplate*{footline}{empty}{}
+
+\defbeamertemplate*{section page}{socorro}{
+    \begin{frame}[plain]
+        \begin{beamercolorbox}[sep=0.3cm,ht=\paperheight,wd=\paperwidth]{frametitle}
+            \setbeamertemplate{footline}[empty]
+            \begin{tikzpicture}[remember picture,overlay]
+              \node[rectangle, 
+                     draw = fg,
+                     line width = 0.5mm,
+                     minimum width = 1.1\paperwidth, 
+                     minimum height = 6cm] (r) at (current page.center) {};
+    
+              \node[rectangle, 
+                     draw = fg,
+                     line width = 1mm,
+                     minimum width = 1.1\paperwidth, 
+                     minimum height = 5cm] (r) at (current page.center) {};
+    
+              \node[rectangle, 
+                     draw = fg,
+                     line width = 2mm,
+                     minimum width = 1.1\paperwidth, 
+                     minimum height = 4cm] (r) at (current page.center) {};
+    
+              \node[rectangle, 
+                     draw = fg,
+                     line width = 3mm,
+                     minimum width = 1.1\paperwidth, 
+                     minimum height = 3cm] (r) at (current page.center) {};
+    
+              \node[rectangle, 
+                     fill=fg, 
+                     text=bg,
+                     minimum width = 1.1\paperwidth, 
+                     minimum height = 2cm] (r) at (current page.center) {\usebeamerfont{section name}\secname};
+            \end{tikzpicture}
+        \end{beamercolorbox}
+    \end{frame}
+}
+
+\defbeamertemplate*{section page}{empty}{}
+
+\setbeamertemplate{section page}[\secsty]
+\setbeamertemplate{frametitle}[\framesty]
+\setbeamertemplate{footline}[\footsty]
+\setbeamertemplate{headline}[\headsty]
+
+
+\AtBeginSection[]
+{
+    \sectionpage
 }

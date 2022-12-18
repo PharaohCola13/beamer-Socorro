@@ -1,0 +1,40 @@
+name: Update Beamer Theme
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 5'
+  
+jobs:
+  update_cv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Clone overleaf
+        run: |
+          git clone https://spencerriley620%40gmail.com:${{ secrets.overleaf }}@git.overleaf.com/632dec493d99ba303ee4b438
+          ls 632dec493d99ba303ee4b438/  
+      - name: Install TeXlive
+        run:  |
+          sudo apt-get update
+          sudo apt-get install texlive texlive-latex-extra texlive-fonts-extra texlive-fonts-recommended
+      - name: Compile 
+        run: |
+          cd 632dec493d99ba303ee4b438/
+          echo "Compiling Demo"
+          pdflatex ./presentations/demo.tex
+          echo "Demo Compiled"
+      - name: Move
+        run: |
+          ls 632dec493d99ba303ee4b438
+          mv 632dec493d99ba303ee4b438/presentations/demo.pdf ./demo.pdf
+           mv 632dec493d99ba303ee4b438/presentations/demo.tex ./demo.tex
+          mv 632dec493d99ba303ee4b438/.socorro/* ./*
+      - name: Add and commit
+        uses: EndBug/add-and-commit@v7
+        with:
+          default_author: github_actions
+          message: Update Beamer Theme
+          add: |
+            './demo.pdf'
+            './demo.tex'
+            './*.sty'

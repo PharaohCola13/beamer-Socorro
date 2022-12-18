@@ -1,6 +1,14 @@
 \mode<presentation>
 
-\definecolor{background}{HTML}{ECE2C6}
+\newcommand{\main}{01385F}
+\newcommand{\background}{ECE2C6}
+
+\DeclareOptionBeamer{main}{\renewcommand{\main}{#1}}
+\DeclareOptionBeamer{background}{\renewcommand{\background}{#1}}
+\ProcessOptionsBeamer
+
+\definecolor{main}{HTML}{\main}
+\definecolor{background}{HTML}{\background}
 
 \setbeamercolor*{palette primary}{bg=main,fg=background}
 \setbeamercolor*{palette secondary}{fg=main,bg=background}

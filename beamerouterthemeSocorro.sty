@@ -1,7 +1,13 @@
-\DeclareOptionBeamer{secsty}{\newcommand{\secsty}{#1}}
-\DeclareOptionBeamer{framesty}{\newcommand{\framesty}{#1}}
-\DeclareOptionBeamer{footsty}{\newcommand{\footsty}{#1}}
-\DeclareOptionBeamer{headsty}{\newcommand{\headsty}{#1}}
+
+\newcommand{\secsty}{socorro}
+\newcommand{\framesty}{socorro}
+\newcommand{\footsty}{socorro}
+\newcommand{\headsty}{none}
+
+\DeclareOptionBeamer{section-sty}{\renewcommand{\secsty}{#1}}
+\DeclareOptionBeamer{frame-sty}{\renewcommand{\framesty}{#1}}
+\DeclareOptionBeamer{footer-sty}{\renewcommand{\footsty}{#1}}
+\DeclareOptionBeamer{header-sty}{\renewcommand{\headsty}{#1}}
 
 \ProcessOptionsBeamer
 
@@ -49,8 +55,7 @@
 
 \defbeamertemplate*{frametitle}{empty}{}
 
-\defbeamertemplate*{headline}{socorro}
-{%
+\defbeamertemplate*{headline}{socorro}{%
   \hbox{%
   \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.65ex,dp=1.5ex,right]{frametitle}%
     \usebeamerfont{section in head/foot}\insertsectionhead\hspace*{2ex}
@@ -62,15 +67,10 @@
 }
 \defbeamertemplate*{headline}{empty}{}
 
-
 \defbeamertemplate*{footline}{socorro}{%
-    % \begin{beamercolorbox}[colsep=1.5pt, ht=0cm]{upper separation line head}
-    % \end{beamercolorbox}
     \begin{beamercolorbox}[ht=0.75cm]{section in head/foot}
         \strut\vskip2pt\insertnavigation{\paperwidth}\strut
     \end{beamercolorbox}%
-    % \begin{beamercolorbox}[colsep=1.5pt, ht=0cm]{lower separation line head}
-    % \end{beamercolorbox}
 }
 
 \defbeamertemplate*{footline}{empty}{}

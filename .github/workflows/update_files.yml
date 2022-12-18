@@ -22,6 +22,7 @@ jobs:
           cd 632dec493d99ba303ee4b438/
           echo "Compiling Demo"
           pdflatex ./presentations/demo.tex
+          pdflatex ./presentations/demo.tex
           echo "Demo Compiled"
       - name: Move
         run: |

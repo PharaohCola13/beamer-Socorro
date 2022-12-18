@@ -26,7 +26,7 @@ jobs:
       - name: Move
         run: |
           ls 632dec493d99ba303ee4b438
-          mv 632dec493d99ba303ee4b438/presentations/demo.pdf ./demo.pdf
+          mv 632dec493d99ba303ee4b438/demo.pdf ./demo.pdf
            mv 632dec493d99ba303ee4b438/presentations/demo.tex ./demo.tex
           mv 632dec493d99ba303ee4b438/.socorro/* ./*
       - name: Add and commit

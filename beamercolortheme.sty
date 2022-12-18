@@ -1,0 +1,35 @@
+\mode<presentation>
+
+\newcommand{\main}{01385F}
+\newcommand{\background}{ECE2C6}
+
+\DeclareOptionBeamer{main}{\renewcommand{\main}{#1}}
+\DeclareOptionBeamer{background}{\renewcommand{\background}{#1}}
+\ProcessOptionsBeamer
+
+\definecolor{main}{HTML}{\main}
+\definecolor{background}{HTML}{\background}
+
+\setbeamercolor*{palette primary}{bg=main,fg=background}
+\setbeamercolor*{palette secondary}{fg=main,bg=background}
+\setbeamercolor{palette tertiary}{bg=main,fg=white}
+\setbeamercolor{palette quaternary}{bg=main,fg=white}
+
+\setbeamercolor{titlelike}{parent=palette primary}
+\setbeamercolor{frametitle}{parent=palette primary}
+\setbeamercolor{subframetitle}{fg=main}
+
+\setbeamercolor{title page}{parent=palette primary}
+\setbeamercolor{background canvas}{bg=background}
+
+\setbeamercolor*{separation line}{}
+\setbeamercolor*{fine separation line}{}
+
+\setbeamercolor{item}{fg=main}
+
+
+\setbeamercolor{section in head/foot}{bg=main, fg=background}
+\setbeamercolor{subsection in head/foot}{bg=main}
+
+\mode
+<all>

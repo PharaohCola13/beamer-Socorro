@@ -1,0 +1,316 @@
+\mode<presentation>
+
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{xstring}
+\usepackage{graphicx, float}
+\usepackage{palatino}
+\usepackage{qrcode}
+\usepackage[super]{nth}
+\usepackage{pgfpages}
+\usepackage{setspace}
+\usepackage{varwidth}
+\usepackage{ifthen}
+\usepackage{multicol}
+% \usepackage[noblocks]{authblk}
+
+\newif\ifbeamer@secheader
+\beamer@secheaderfalse
+\beamer@compresstrue
+
+\DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
+\DeclareOptionBeamer{title-image}{\newcommand{\tbkgrd}{#1}}
+\DeclareOptionBeamer{title-orientation}{\newcommand{\tslide}{#1}}
+\DeclareOptionBeamer{notes}{\setbeameroption{show notes on second screen=right}\setbeamertemplate{note page}{\pagecolor{white}\insertnote}}
+\ProcessOptionsBeamer
+
+\newlength{\spce}
+\setlength{\spce}{0.5cm}
+\newcommand{\vtab}[1]{\vspace*{#1\spce}}
+\newcommand{\htab}[1]{\hspace*{#1\spce}}
+
+\AtBeginNote{
+    \vspace{0.325cm}
+    \usebeamerfont{section in head/foot}
+    \textbf{\insertframetitle}\hfill\insertsubsection
+    \par\smallskip
+    \hrule
+    \footnotesize
+}
+
+\newcommand\Authfont{\normalfont}
+\newcommand\Affilfont{\normalfont}
+\newcommand\Authsep{, }
+\newcommand\Authands{, and }
+\newcommand\Authand{ and }
+\newlength{\affilsep}\setlength{\affilsep}{1em}
+\newlength{\@affilsep}
+\newcounter{Maxaffil}
+\setcounter{Maxaffil}{2}
+
+\newcounter{authors}
+\newcounter{emails}
+\newcounter{affil}
+\newif\ifnewaffil \newaffiltrue
+\newcommand\AB@authnote[1]{\textsuperscript{\normalfont#1}}
+\newcommand\AB@affilnote[1]{\textsuperscript{\normalfont#1}}
+\newcommand\AB@emailnote[1]{\textsuperscript{\normalfont#1}}
+\providecommand\textsuperscript[1]{$^{#1}$}
+\newcommand\AB@blk@and{\protect\Authfont\protect\AB@setsep}
+\newcommand\AB@pand{\protect\and \protect\Authfont \protect\AB@setsep}
+\@namedef{@sep1}{}
+\@namedef{@sep2}{\Authand}
+\newcommand\AB@affilsep{\protect\Affilfont}
+\newcommand\AB@affilsepx{\protect\\\protect\Affilfont}
+\newcommand\AB@setsep{\setlength{\@affilsep}{\affilsep}}
+\newcommand\AB@resetsep{\setlength{\@affilsep}{\z@}}
+\newcommand\AB@authlist{}
+\newcommand\AB@affillist{}
+\newcommand\AB@emaillist{}
+\newcommand\AB@authors{}
+\newcommand\AB@emails{}
+\newcommand\AB@empty{}
+\xdef\AB@author{\noexpand\AB@blk@and\@author}
+
+\renewcommand\author[2][]%
+      {\ifnewaffil\addtocounter{affil}{1}%
+       \edef\AB@thenote{\arabic{affil}}\fi
+      \if\relax#1\relax\def\AB@note{\AB@thenote}\else\def\AB@note{#1}%
+        \setcounter{Maxaffil}{0}\fi
+      \ifnum\value{authors}>1\relax
+      \@namedef{@sep\number\c@authors}{\Authsep}\fi
+      \addtocounter{authors}{1}%
+      \begingroup
+          \let\protect\@unexpandable@protect \let\and\AB@pand
+          \def\thanks{\protect\thanks}\def\footnote{\protect\footnote}%
+         \@temptokena=\expandafter{\AB@authors}%
+         {\def\\{\protect\\[\@affilsep]\protect\Affilfont
+              \protect\AB@resetsep}%
+              \xdef\AB@author{\AB@blk@and#2}%
+       \ifnewaffil\gdef\AB@las{}\gdef\AB@lasx{\protect\Authand}\gdef\AB@as{}%
+           \xdef\AB@authors{\the\@temptokena\AB@blk@and}%
+       \else
+          \xdef\AB@authors{\the\@temptokena\AB@as\AB@au@str}%
+          \global\let\AB@las\AB@lasx\gdef\AB@lasx{\protect\Authands}%
+          \gdef\AB@as{\Authsep}%
+       \fi
+       \gdef\AB@au@str{#2}}%
+         \@temptokena=\expandafter{\AB@authlist}%
+         \let\\=\authorcr
+         \xdef\AB@authlist{\the\@temptokena
+           \protect\@nameuse{@sep\number\c@authors}%
+           \protect\Authfont#2\AB@authnote{\AB@note}}%
+      \endgroup
+      \ifnum\value{authors}>2\relax
+      \@namedef{@sep\number\c@authors}{\Authands}\fi
+      \newaffilfalse
+}
+
+\newcommand\authorcr{\protect\\ \protect\Authfont \protect\AB@setsep}%
+\newcommand\affil[2][]%
+   {\newaffiltrue\let\AB@blk@and\AB@pand
+      \if\relax#1\relax\def\AB@note{\AB@thenote}\else\def\AB@note{#1}%
+        \setcounter{Maxaffil}{0}\fi
+      \begingroup
+        \let\protect\@unexpandable@protect
+        \def\thanks{\protect\thanks}\def\footnote{\protect\footnote}%
+        \@temptokena=\expandafter{\AB@authors}%
+        {\def\\{\protect\\\protect\Affilfont}\xdef\AB@temp{#2}}%
+         \xdef\AB@authors{\the\@temptokena\AB@las\AB@au@str
+         \protect\\[\affilsep]\protect\Affilfont\AB@temp}%
+         \gdef\AB@las{}\gdef\AB@au@str{}%
+        {\def\\{, \ignorespaces}\xdef\AB@temp{#2}}%
+        \@temptokena=\expandafter{\AB@affillist}%
+        \xdef\AB@affillist{\the\@temptokena \AB@affilsep
+          \AB@affilnote{\AB@note}\protect\Affilfont\AB@temp}%
+      \endgroup
+       \let\AB@affilsep\AB@affilsepx
+}
+
+\newcommand\email[2][]%
+   {\newaffiltrue\let\AB@blk@and\AB@pand
+      \if\relax#1\relax\def\AB@note{\AB@thenote}\else\def\AB@note{#1}%
+        \setcounter{Maxaffil}{0}\fi
+      \begingroup
+        \let\protect\@unexpandable@protect
+        \def\thanks{\protect\thanks}\def\footnote{\protect\footnote}%
+        \@temptokena=\expandafter{\AB@authors}%
+        {\def\\{\protect\\\protect\Affilfont}\xdef\AB@temp{#2}}%
+         \xdef\AB@authors{\the\@temptokena\AB@las\AB@au@str
+         \protect\\[\affilsep]\protect\Affilfont\AB@temp}%
+         \gdef\AB@las{}\gdef\AB@au@str{}%
+        {\def\\{, \ignorespaces}\xdef\AB@temp{#2}}%
+        \@temptokena=\expandafter{\AB@emaillist}%
+        \xdef\AB@emaillist{\the\@temptokena \AB@affilsep
+          \AB@emailnote{\AB@note}\protect\Affilfont\AB@temp}%
+      \endgroup
+       \let\AB@affilsep\AB@affilsepx
+}
+
+
+\def\@author{}
+\renewcommand\@author{\ifx\AB@authlist\AB@empty\AB@author\else
+      \ifnum\value{affil}>\value{Maxaffil}\def\rlap##1{##1}%
+    \AB@authlist
+    \else  \AB@authors\fi\fi}
+
+\def\@affil{}
+\renewcommand\@affil{\ifx\AB@affillist\AB@empty\AB@author\else
+      \ifnum\value{affil}>\value{Maxaffil}\def\rlap##1{##1}%
+    \AB@affillist
+    \else  \AB@empty\fi\fi}
+
+\def\@email{}
+\renewcommand\@email{\ifx\AB@emaillist\AB@empty\AB@emaillist\else
+      \ifnum\value{affil}>\value{Maxaffil}\def\rlap##1{##1}%
+    \AB@emaillist
+    \else  \AB@empty\fi\fi}
+    
+\let\AB@maketitle=\maketitle
+\def\maketitle
+  {{\renewenvironment{tabular}[2][]{\begin{center}}
+                                   {\end{center}}
+  \AB@maketitle}}
+
+\newcommand\thedate[1]{\footnotesize\date{#1}}
+
+\let\insertconference\relax
+\newcommand\conference[1]{\def\insertconference{#1}}
+
+\defbeamertemplate*{title page}{socorro}[1][]{
+    \usebeamercolor[fg]{palette primary}
+   \pagecolor{bg}
+  \begingroup
+    \centering
+    \begin{beamercolorbox}[sep=3pt,center,center]{titlepage}
+      \usebeamerfont{title}\Large\textbf{\inserttitle}\par%
+      \ifx\insertsubtitle\@empty%
+      \else%
+        \vskip0.25em%
+        {\usebeamerfont{subtitle}\small\textit\insertsubtitle\par}%
+      \fi%     
+    \end{beamercolorbox}%
+    \vskip1.5em\par
+    \hrule\vskip1.5em\par%
+    \begin{beamercolorbox}[sep=0pt,right,#1]{author}
+      \usebeamerfont{author}\scriptsize\@author
+    \end{beamercolorbox}\vskip0.5em%
+    \begin{beamercolorbox}[sep=0pt,right,#1]{institute}
+      \usebeamerfont{institute}\scriptsize\@affil
+    \end{beamercolorbox}\vskip1.0cm%
+    \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
+      \usebeamerfont{conference}\scriptsize\insertconference\\\usebeamerfont{date}\scriptsize\insertdate
+    \end{beamercolorbox}
+
+    {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+  \endgroup
+  \vfill
+}
+
+\setbeamersize{text margin left = 0.2in, text margin right = 0.2in}
+
+\defbeamertemplate*{background canvas}{image,west}{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.west), opacity=1]{
+            \includegraphics[width=\paperwidth]{\tbkgrd}
+        };
+    \end{tikzpicture}
+}
+
+\defbeamertemplate*{background canvas}{image,east}{%
+    \setbeamertemplate{title page}[socorro][right]
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[at=(current page.east), opacity=1]{
+            \includegraphics[width=\paperwidth]{\tbkgrd}
+        };
+    \end{tikzpicture}
+}
+
+\BeforeBeginEnvironment{frame}{%
+  \setbeamercovered{invisible}%
+  \setbeamertemplate{background canvas}[color]%
+}
+
+\defbeamertemplate*{background canvas}{color}{%
+  \ifbeamercolorempty[bg]{background canvas}{}{\color{bg}\vrule width\paperwidth height\paperheight}%
+}
+
+\newcommand{\outlineslide}{
+    \begin{frame}{Overview}
+        \tableofcontents
+    \end{frame}
+}
+
+\newcommand{\titleslide}{
+    \IfEqCase{\tslide}{
+    {east}{
+        \define@key{beamerframe}{image}[true]{%
+            \setbeamertemplate{background canvas}[image,west]%
+        }
+        \setbeamertemplate{title page}[socorro][left]
+        \begin{frame}[plain, image]
+            \begin{columns}
+                \begin{column}{0.5\textwidth}\end{column}
+                \begin{column}{0.5\textwidth}
+                    \titlepage
+                \end{column}
+            \end{columns}
+        \end{frame}
+    }{west}{
+        \define@key{beamerframe}{image}[true]{%
+            \setbeamertemplate{background canvas}[image,east]%
+        }
+        \setbeamertemplate{title page}[socorro][right]
+        \begin{frame}[plain, image]
+            \begin{columns}
+                \begin{column}{0.5\textwidth}
+                    \titlepage
+                \end{column}
+                \begin{column}{0.5\textwidth}\end{column}
+            \end{columns}
+        \end{frame}
+    }}
+}
+
+\newcommand{\prezrule}[2]{
+{\usebeamercolor[bg]{palette primary}
+\begin{center}
+\vspace*{#2}
+\textcolor{bg}{\rule{#1\textwidth}{1px}}
+\vspace*{#2}
+\end{center}
+}}
+
+\newcommand{\contactentry}[2]{
+     {\footnotesize #1\\\vtab{-0.25}{\scriptsize#2}}\\\vtab{1}
+}
+
+\newcommand{\thend}[1]{
+\section*{The End}
+\begin{frame}{\secname}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item[]{\usebeamerfont{title}\Large\textbf{Questions?}}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            {\footnotesize\@author\vtab{1}{\scriptsize\@email}\\}            
+            \prezrule{1}{0cm}
+            \begin{multicols}{2}
+            \if\relax\detokenize{#1}\relax
+            \else
+                \vtab{-0.75}
+                \contactentry{Project URL}{\url{#1}}
+                \columnbreak
+                \hfill
+                \textcolor{main}{\qrcode[height=1in]{https://#1}}  
+            \fi
+            \end{multicols}
+        \end{column}
+    \end{columns}
+\end{frame}
+}
+
+\mode
+<all>

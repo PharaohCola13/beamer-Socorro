@@ -5,34 +5,37 @@
 \RequirePackage{import}
 \mode<presentation>{}
 
-\usepackage[tbkgrd=.bg/clouds.jpg, 
-            tslide=east,
-            compress]{beamerthemeSocorro}
-
-\newcommand{\desertblue}{01385F}
-
-\definecolor{main}{HTML}{\desertblue} % desertblue
-
-\usepackage{.socorro/beamercolortheme}
-\usepackage[secsty=none,
-            framesty=socorro,
-            footsty=socorro,
-            headsty=none]{beameroutertheme}
+\usepackage[title-image=.bg/clouds.jpg, 
+            title-orientation=east,
+            compress]{.socorro/beamertheme}
+\usepackage[main=01385F]{.socorro/beamercolortheme}
+\usepackage{.socorro/beameroutertheme}
             
 \usepackage{lipsum}
 
-\title[Short Title]{The Socorro Beamer Theme Test}
-\subtitle{A test subtitle}
+\title[Short Title]{BeamerSocorro Theme Demo}
+\subtitle{A dummy subtitle}
 
-\author[Short Author]{Author One\inst{1}, Author Two\inst{2}}
+\author[1,*]{Author One}
+\author[2,**]{Author Two}
 
-\institute{\inst{1}Place One \and \inst{2}Place Two}
+\affil[1]{Place One}
+\affil[2]{Place Two}
 
-\date{\footnotesize Conference Date}
+\email[*]{author1@email.dev}
+\email[**]{author2@email.dev}
+
+\thedate{Conference Date}
 \conference{Conference Title}
 
 \begin{document}
 \titleslide
+
+\subsection*{Table of Contents}
+\begin{frame}{\secname}
+    \tableofcontents
+\end{frame}
+
 
 \section{Text slides}
 \subsection{basic}
@@ -41,5 +44,27 @@
     \prezrule{0.75}{0.25cm}
     \lipsum[1][1] 
 \end{frame}
+
+\subsection{lists}
+\begin{frame}{\secname}
+    \begin{itemize}
+        \item \lipsum[1][1]   
+        \item \lipsum[1][2]
+    \end{itemize}
+    \prezrule{0.75}{0.25cm}
+    \begin{enumerate}
+        \item \lipsum[1][1]   
+        \item \lipsum[1][2]
+    \end{enumerate}
+\end{frame}
+
+\subsection{blocks}
+\begin{frame}{\secname}
+    \begin{block}{A test block}
+        \lipsum[1][1] 
+    \end{block}
+\end{frame}
+
+\thend{pmat.app}
 
 \end{document}

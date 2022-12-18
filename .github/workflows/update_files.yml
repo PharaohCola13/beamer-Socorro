@@ -28,7 +28,9 @@ jobs:
           ls 632dec493d99ba303ee4b438
           mv 632dec493d99ba303ee4b438/demo.pdf ./demo.pdf
           mv 632dec493d99ba303ee4b438/presentations/demo.tex ./
-          mv 632dec493d99ba303ee4b438/.socorro/* ./
+          mv 632dec493d99ba303ee4b438/.socorro/beamercolortheme.sty ./beamercolorthemeSocorro.sty
+          mv 632dec493d99ba303ee4b438/.socorro/beameroutertheme.sty ./beamerouterthemeSocorro.sty
+          mv 632dec493d99ba303ee4b438/.socorro/beamertheme.sty ./beamerthemeSocorro.sty
       - name: Add and commit
         uses: EndBug/add-and-commit@v7
         with:

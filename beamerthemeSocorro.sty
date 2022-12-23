@@ -29,6 +29,13 @@
 \newcommand{\vtab}[1]{\vspace*{#1\spce}}
 \newcommand{\htab}[1]{\hspace*{#1\spce}}
 
+\setbeamertemplate{section in toc}[sections numbered]
+\setbeamertemplate{subsection in toc}{
+    \begin{itemize}
+    \item \inserttocsubsection
+    \end{itemize}
+}
+
 \AtBeginNote{
     \vspace{0.325cm}
     \usebeamerfont{section in head/foot}
@@ -166,13 +173,13 @@
     \AB@emaillist
     \else  \AB@empty\fi\fi}
     
-\let\AB@maketitle=\maketitle
-\def\maketitle
-  {{\renewenvironment{tabular}[2][]{\begin{center}}
-                                   {\end{center}}
-  \AB@maketitle}}
+% \let\AB@maketitle=\maketitle
+% \def\maketitle
+%   {{\renewenvironment{tabular}[2][]{\begin{center}}
+%                                   {\end{center}}
+%   \AB@maketitle}}
 
-\newcommand\thedate[1]{\footnotesize\date{#1}}
+% \newcommand\thedate[1]{\footnotesize\date{#1}}
 
 \let\insertconference\relax
 \newcommand\conference[1]{\def\insertconference{#1}}
@@ -193,13 +200,13 @@
     \vskip1.5em\par
     \hrule\vskip1.5em\par%
     \begin{beamercolorbox}[sep=0pt,right,#1]{author}
-      \usebeamerfont{author}\scriptsize\@author
+      \usebeamerfont{author}\footnotesize\@author
     \end{beamercolorbox}\vskip0.5em%
     \begin{beamercolorbox}[sep=0pt,right,#1]{institute}
-      \usebeamerfont{institute}\scriptsize\@affil
+      \usebeamerfont{institute}\footnotesize\@affil
     \end{beamercolorbox}\vskip1.0cm%
     \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
-      \usebeamerfont{conference}\scriptsize\insertconference\\\usebeamerfont{date}\scriptsize\insertdate
+      \usebeamerfont{conference}\footnotesize\insertconference\\\usebeamerfont{date}\footnotesize\insertdate
     \end{beamercolorbox}
 
     {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
@@ -286,7 +293,6 @@
 }
 
 \newcommand{\thend}[1]{
-\section*{The End}
 \begin{frame}{\secname}
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -311,6 +317,27 @@
     \end{columns}
 \end{frame}
 }
+
+\newcommand{\tocslide}[2]{
+    \subsection{Outline}
+    \begin{frame}{\secname}
+        \begin{columns}[t]
+            \begin{column}{.5\textwidth}
+                \if\relax\detokenize{#1}\relax
+                \else
+                    \tableofcontents[sections={#1}]
+                \fi
+            \end{column}
+            \begin{column}{.5\textwidth}
+                \if\relax\detokenize{#2}\relax
+                \else
+                    \tableofcontents[sections={#2}]
+                \fi
+            \end{column}
+        \end{columns}
+    \end{frame}
+}
+
 
 \mode
 <all>

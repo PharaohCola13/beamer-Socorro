@@ -1,5 +1,5 @@
-% :todo: make the counter ignore the section title slides
-% :todo: get the frametitle 
+%> TODO: make the counter ignore the section title slides
+%> TODO: get the frametitle 
 
 \documentclass[11pt]{beamer}
 \RequirePackage{import}
@@ -25,16 +25,13 @@
 \email[*]{author1@email.dev}
 \email[**]{author2@email.dev}
 
-\thedate{Conference Date}
+\date{Conference Date}
 \conference{Conference Title}
 
 \begin{document}
 \titleslide
-
-\subsection*{Table of Contents}
-\begin{frame}{\secname}
-    \tableofcontents
-\end{frame}
+\tocslide{1-2}{}
+\tocslide{}{1-2}
 
 
 \section{Text slides}
@@ -65,6 +62,11 @@
     \end{block}
 \end{frame}
 
-\thend{pmat.app}
+\section{The End}
+\subsection{Summary}
+\begin{frame}{\secname}
 
+\end{frame}
+\subsection*{...Finally.}
+\thend{website.com}
 \end{document}

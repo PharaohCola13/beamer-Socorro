@@ -9,7 +9,7 @@
             title-orientation=east,
             compress]{.socorro/beamertheme}
 \usepackage[main=01385F]{.socorro/beamercolortheme}
-\usepackage{.socorro/beameroutertheme}
+\usepackage[section-style=socorro]{.socorro/beameroutertheme}
             
 \usepackage{lipsum}
 
@@ -31,8 +31,6 @@
 \begin{document}
 \titleslide
 \tocslide{1-2}{}
-\tocslide{}{1-2}
-
 
 \section{Text slides}
 \subsection{basic}
@@ -65,7 +63,14 @@
 \section{The End}
 \subsection{Summary}
 \begin{frame}{\secname}
-
+    \begin{columns}[t]
+        \begin{column}{.5\textwidth}
+            \lipsum[1][1-3]   
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \lipsum[1][3-6] 
+        \end{column}
+    \end{columns}
 \end{frame}
 \subsection*{...Finally.}
 \thend{website.com}

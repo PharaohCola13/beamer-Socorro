@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Clone overleaf
         run: |
-          git clone https://spencerriley%40montane.edu:${{ secrets.overleaf }}@git.overleaf.com/632dec493d99ba303ee4b438
+          git clone https://spencerriley%40montana.edu:${{ secrets.overleaf }}@git.overleaf.com/632dec493d99ba303ee4b438
           ls 632dec493d99ba303ee4b438/  
       - name: Install TeXlive
         run:  |

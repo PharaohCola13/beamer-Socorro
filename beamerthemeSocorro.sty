@@ -219,7 +219,7 @@
 \defbeamertemplate*{background canvas}{image,west}{%
     \begin{tikzpicture}[remember picture,overlay]
         \node[at=(current page.west), opacity=1]{
-            \includegraphics[width=\paperwidth]{\tbkgrd}
+            \includegraphics[width=\paperwidth, height=\paperheight]{\tbkgrd}
         };
     \end{tikzpicture}
 }
@@ -228,7 +228,7 @@
     \setbeamertemplate{title page}[socorro][right]
     \begin{tikzpicture}[remember picture,overlay]
         \node[at=(current page.east), opacity=1]{
-            \includegraphics[width=\paperwidth]{\tbkgrd}
+            \includegraphics[width=\paperwidth,height=\paperheight]{\tbkgrd}
         };
     \end{tikzpicture}
 }

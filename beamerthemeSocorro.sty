@@ -13,14 +13,32 @@
 \usepackage{ifthen}
 \usepackage{multicol}
 % \usepackage[noblocks]{authblk}
-
 \newif\ifbeamer@secheader
 \beamer@secheaderfalse
 \beamer@compresstrue
 
+\usetikzlibrary{shapes}
+\usetikzlibrary{plotmarks}
+
+\usepackage{caption}
+\captionsetup{font=scriptsize,labelfont=scriptsize}
+
 \DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
 \DeclareOptionBeamer{title-image}{\newcommand{\tbkgrd}{#1}}
+\DeclareOptionBeamer{title-purpose}{\newcommand{\tpurp}{#1}}
 \DeclareOptionBeamer{title-orientation}{\newcommand{\tslide}{#1}}
+
+\newcommand{\definetrim}[2]{%
+  \define@key{Gin}{#1}[]{\setkeys{Gin}{trim=#2,clip}}%
+}
+\DeclareOptionBeamer{title-image-trim}{\definetrim{titletrim}{#1}}
+
+
+
+\DeclareOptionBeamer{title-image-caption}{\newcommand{\tbkcap}{#1}}
+\DeclareOptionBeamer{title-image-caption-color}{\newcommand{\tbkcapcolor}{#1}}
+
+
 \DeclareOptionBeamer{notes}{\setbeameroption{show notes on second screen=right}\setbeamertemplate{note page}{\pagecolor{white}\insertnote}}
 \ProcessOptionsBeamer
 
@@ -197,19 +215,33 @@
         {\usebeamerfont{subtitle}\small\textit\insertsubtitle\par}%
       \fi%     
     \end{beamercolorbox}%
-    \vskip1.5em\par
-    \hrule\vskip1.5em\par%
-    \begin{beamercolorbox}[sep=0pt,right,#1]{author}
-      \usebeamerfont{author}\footnotesize\@author
-    \end{beamercolorbox}\vskip0.5em%
-    \begin{beamercolorbox}[sep=0pt,right,#1]{institute}
-      \usebeamerfont{institute}\footnotesize\@affil
-    \end{beamercolorbox}\vskip1.0cm%
-    \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
-      \usebeamerfont{conference}\footnotesize\insertconference\\\usebeamerfont{date}\footnotesize\insertdate
-    \end{beamercolorbox}
+    \IfEqCase{\tpurp}{
+    {group}{
+        \vskip1.5em\par
+        \hrule\vskip1.5em\par%
+        \vskip0.5em%
+        \vskip1.0cm%
+        \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
+        \usebeamerfont{conference}\footnotesize{Group Meeting}\\\usebeamerfont{date}\footnotesize\insertdate
+        \end{beamercolorbox}
+
+    }{conference}{
+        \vskip1.5em\par
+        \hrule\vskip1.5em\par%
+        \begin{beamercolorbox}[sep=0pt,right,#1]{author}
+          \usebeamerfont{author}\footnotesize\@author
+        \end{beamercolorbox}\vskip0.5em%
+        \begin{beamercolorbox}[sep=0pt,right,#1]{institute}
+          \usebeamerfont{institute}\footnotesize\@affil
+        \end{beamercolorbox}\vskip1.0cm%
+        \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
+          \usebeamerfont{conference}\footnotesize\insertconference\\\usebeamerfont{date}\footnotesize\insertdate
+        \end{beamercolorbox}
+        }
+    }
 
     {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
+
   \endgroup
   \vfill
 }
@@ -219,17 +251,21 @@
 \defbeamertemplate*{background canvas}{image,west}{%
     \begin{tikzpicture}[remember picture,overlay]
         \node[at=(current page.west), opacity=1]{
-            \includegraphics[width=\paperwidth, height=\paperheight]{\tbkgrd}
+            \includegraphics[width=\paperwidth, height=\paperheight, titletrim]{\tbkgrd}
         };
+        \node[at=(current page.south west), opacity=1, anchor=base, font=\tiny, text=\tbkcapcolor]{\hspace*{4cm}\tbkcap};
     \end{tikzpicture}
 }
+
+\usepackage[export]{adjustbox}
 
 \defbeamertemplate*{background canvas}{image,east}{%
     \setbeamertemplate{title page}[socorro][right]
     \begin{tikzpicture}[remember picture,overlay]
         \node[at=(current page.east), opacity=1]{
-            \includegraphics[width=\paperwidth,height=\paperheight]{\tbkgrd}
+            \includegraphics[width=\paperwidth, height=\paperheight, titletrim]{\tbkgrd}
         };
+        \node[at=(current page.south east), opacity=1, anchor=base, font=\tiny, text=\tbkcapcolor]{\hspace*{-4cm}\tbkcap};
     \end{tikzpicture}
 }
 

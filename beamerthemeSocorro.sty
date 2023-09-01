@@ -17,6 +17,11 @@
 \beamer@secheaderfalse
 \beamer@compresstrue
 
+\usepackage{footmisc, bigfoot}
+\let\oldfootnoterule\footnoterule
+\renewcommand{\footnoterule}{\usebeamercolor[fg]{imgcredit}\oldfootnoterule}% <----- 
+\def\footnotelayout{\tiny\usebeamercolor[fg]{imgcredit}}
+
 \usetikzlibrary{shapes}
 \usetikzlibrary{plotmarks}
 
@@ -202,6 +207,11 @@
 \let\insertconference\relax
 \newcommand\conference[1]{\def\insertconference{#1}}
 
+\let\insertimagecredit\relax
+\newcommand\tbkcred[1]{\def\insertimagecredit{#1}}
+
+\tbkcred{\tbkcap}
+
 \defbeamertemplate*{title page}{socorro}[1][]{
     \usebeamercolor[fg]{palette primary}
    \pagecolor{bg}
@@ -239,11 +249,12 @@
         \end{beamercolorbox}
         }
     }
-
+    \begin{beamercolorbox}[sep=0pt,center,#1]{imgcredit}
+        \vspace{\fill}
+        {\footnotetext{Image Credit: \insertimagecredit}}
+    \end{beamercolorbox}
     {\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}
-
-  \endgroup
-  \vfill
+    \endgroup
 }
 
 \setbeamersize{text margin left = 0.2in, text margin right = 0.2in}
@@ -253,7 +264,6 @@
         \node[at=(current page.west), opacity=1]{
             \includegraphics[width=\paperwidth, height=\paperheight, titletrim]{\tbkgrd}
         };
-        \node[at=(current page.south west), opacity=1, anchor=base, font=\tiny, text=\tbkcapcolor]{\hspace*{4cm}\tbkcap};
     \end{tikzpicture}
 }
 
@@ -265,7 +275,6 @@
         \node[at=(current page.east), opacity=1]{
             \includegraphics[width=\paperwidth, height=\paperheight, titletrim]{\tbkgrd}
         };
-        \node[at=(current page.south east), opacity=1, anchor=base, font=\tiny, text=\tbkcapcolor]{\hspace*{-4cm}\tbkcap};
     \end{tikzpicture}
 }
 
@@ -285,10 +294,11 @@
 }
 
 \newcommand{\titleslide}{
+    {
     \IfEqCase{\tslide}{
     {east}{
         \define@key{beamerframe}{image}[true]{%
-            \setbeamertemplate{background canvas}[image,west]%
+            \setbeamertemplate{background canvas}[image,west]%        
         }
         \setbeamertemplate{title page}[socorro][left]
         \begin{frame}[plain, image]
@@ -313,6 +323,7 @@
             \end{columns}
         \end{frame}
     }}
+    }
 }
 
 \newcommand{\prezrule}[2]{

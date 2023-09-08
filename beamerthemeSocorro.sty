@@ -17,10 +17,11 @@
 \beamer@secheaderfalse
 \beamer@compresstrue
 
-\usepackage{footmisc, bigfoot}
+\usepackage[hang,flushmargin]{footmisc}
+\usepackage{bigfoot}
 \let\oldfootnoterule\footnoterule
 \renewcommand{\footnoterule}{\usebeamercolor[fg]{imgcredit}\oldfootnoterule}% <----- 
-\def\footnotelayout{\tiny\usebeamercolor[fg]{imgcredit}}
+\def\footnotelayout{\noindent\tiny\usebeamercolor[fg]{imgcredit}}
 
 \usetikzlibrary{shapes}
 \usetikzlibrary{plotmarks}
@@ -32,6 +33,9 @@
 \DeclareOptionBeamer{title-image}{\newcommand{\tbkgrd}{#1}}
 \DeclareOptionBeamer{title-purpose}{\newcommand{\tpurp}{#1}}
 \DeclareOptionBeamer{title-orientation}{\newcommand{\tslide}{#1}}
+
+
+
 
 \newcommand{\definetrim}[2]{%
   \define@key{Gin}{#1}[]{\setkeys{Gin}{trim=#2,clip}}%

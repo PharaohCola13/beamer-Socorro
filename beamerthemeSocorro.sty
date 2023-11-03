@@ -238,7 +238,6 @@
         \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
         \usebeamerfont{conference}\footnotesize{Group Meeting}\\\usebeamerfont{date}\footnotesize\insertdate
         \end{beamercolorbox}
-
     }{conference}{
         \vskip1.5em\par
         \hrule\vskip1.5em\par%
@@ -250,6 +249,14 @@
         \end{beamercolorbox}\vskip1.0cm%
         \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
           \usebeamerfont{conference}\footnotesize\insertconference\\\usebeamerfont{date}\footnotesize\insertdate
+        \end{beamercolorbox}
+        }    {empty}{
+        \vskip1.5em\par
+        \hrule\vskip1.5em\par%
+        \vskip0.5em%
+        \vskip1.0cm%
+        \begin{beamercolorbox}[sep=0pt,center,#1]{conference}
+        \usebeamerfont{conference}\footnotesize{}\\\usebeamerfont{date}\footnotesize\insertdate
         \end{beamercolorbox}
         }
     }

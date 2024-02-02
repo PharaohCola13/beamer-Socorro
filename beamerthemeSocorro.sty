@@ -273,7 +273,9 @@
 \defbeamertemplate*{background canvas}{image,west}{%
     \begin{tikzpicture}[remember picture,overlay]
         \node[at=(current page.west), opacity=1]{
+            \pdfpkresolution=1200
             \includegraphics[width=\paperwidth, height=\paperheight, titletrim]{\tbkgrd}
+            \pdfpkresolution=72
         };
     \end{tikzpicture}
 }
@@ -284,7 +286,9 @@
     \setbeamertemplate{title page}[socorro][right]
     \begin{tikzpicture}[remember picture,overlay]
         \node[at=(current page.east), opacity=1]{
+            \pdfpkresolution=1200
             \includegraphics[width=\paperwidth, height=\paperheight, titletrim]{\tbkgrd}
+            \pdfpkresolution=72
         };
     \end{tikzpicture}
 }
@@ -377,7 +381,7 @@
 }
 
 \newcommand{\tocslide}[2]{
-    \subsection{Outline}
+    \subsection*{Outline}
     \begin{frame}{\secname}
         \begin{columns}[t]
             \begin{column}{.5\textwidth}
